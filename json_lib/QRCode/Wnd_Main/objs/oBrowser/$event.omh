@@ -1,0 +1,27 @@
+;
+On evControlEvent
+	Calculate lrInfo as pInfo
+	
+	Calculate lcEvName as lrInfo.evType
+	
+	
+	Switch lcEvName
+		Case 'ev_Ready'
+			;  From now on i can use $callmethod on the OBrowser
+			Calculate iirEntryInput.$enabled as kTrue
+			Calculate iirBtnEncode.$enabled as kTrue
+			
+			;  Usually this "event handler" sends back to the JavaScript applications several configuration info
+			
+		Case 'ev_QRCodeReady'
+			
+			Calculate lcData as lrInfo.data
+			Calculate lrData as OJSON.$jsontolistorrow(lcData,%%error,kTrue)
+			
+			Calculate lcBase64 as lrData.qrcode
+			Calculate lcBase64 as mid(lcBase64,pos(',',lcBase64)+1)
+			Calculate lxImage as binfrombase64(lcBase64)
+			
+			Calculate iPict as pictconvfrom('PNG',lxImage)
+			Do $cinst.$redraw()
+	End Switch

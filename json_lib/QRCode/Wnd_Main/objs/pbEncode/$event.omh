@@ -1,0 +1,22 @@
+On evClick     ;; Event Parameters - pRow( Itemreference )
+	Calculate lrParams as row(icInput)
+	Calculate lrParams.$cols.1.$name as 'text'
+	;  The cols names matches the attributes name of the "params" object received from the JavaScript method
+	Do iirOBrower.$callmethod('renderQRCode',lrParams)
+	
+	Quit method
+	
+	;  If you have to send several nested row or a list, my advice is to manually encode the data in JSON,
+	;  to send the JSON as a parameter, and finally to parse the JSON in the JavaScript code with JSON.parse
+	;  (Omnis sometimes makes a JSON representation of the list which can be hard to parse)
+	
+	Calculate llQueryResults as '... something'
+	Calculate lcListJSON as utf8tochar(OJSON.$listtoobjectarray(llQueryResults))
+	Calculate lrParams as row(lcListJSON)
+	Calculate lrParams.$cols.1.$name as 'myListJSON'
+	Do iirOBrower.$callmethod('myMethod',lrParams)
+	;  -- In JavaScript --
+	;  myMethod: function(params) {
+	;  var myLyst = JSON.parse(params.myListJSON)
+	;  ...
+	;  }

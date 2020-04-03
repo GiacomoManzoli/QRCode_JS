@@ -1,0 +1,2 @@
+On evClick     ;; Event Parameters - pRow( Itemreference )
+	Calculate $cinst.$objs.oBrowser.$urlorcontrolname as 'qrcode_js'
